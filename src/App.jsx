@@ -39,7 +39,7 @@ const App = () => {
         </div>
 
         <div className="col-span-4 p-10">
-          <div className="container h-80 overflow-scroll">
+          <div className="container h-80 overflow-y-scroll scrollbar-hide ">
             <div className="text-white ">
               {result}
               {/* <ul>
