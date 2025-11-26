@@ -63,7 +63,10 @@ const App = () => {
               placeholder="Ask me anything..."
               onChange={(event) => setQuestion(event.target.value)}
             />
-            <button onClick={askQuestion} className="">
+            <button
+              onClick={askQuestion}
+              className="border-amber-50 border rounded-4xl justify-center bg-white text-black cursor-pointer pb-1 px-3"
+            >
               Ask
             </button>
           </div>
