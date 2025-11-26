@@ -36,10 +36,11 @@ const App = () => {
       <div className="grid grid-cols-5  text-center">
         <div className="col-span-1 bg-zinc-800 h-screen text-white">
           <h1>Recent History</h1>
+          <p>Sidebar scroll</p>
         </div>
 
         <div className="col-span-4 p-10">
-          <div className="container h-80 overflow-y-scroll scrollbar-hide ">
+          <div className="container h-80 overflow-y-scroll ">
             <div className="text-white ">
               {result}
               {/* <ul>
