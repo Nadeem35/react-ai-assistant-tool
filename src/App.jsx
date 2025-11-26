@@ -1,5 +1,4 @@
 import { useState } from "react";
-import AppPage from "./AppPage";
 import { URL } from "./constants";
 import Answers from "./components/Answers";
 
@@ -19,15 +18,13 @@ const App = () => {
     });
 
     response = await response.json();
-
     let dataString = response.candidates[0].content.parts[0].text;
     dataString = dataString.split("* ");
     dataString = dataString.map((item) => item.trim());
 
     console.log(dataString);
-
-    // console.log(response.candidates[0].content.parts[0].text);
-    setResult(response.candidates[0].content.parts[0].text);
+    setResult(dataString);
+    // setResult(response.candidates[0].content.parts[0].text);
   };
 
   return (
@@ -41,16 +38,17 @@ const App = () => {
 
         <div className="col-span-4 p-10">
           <div className="container h-80 overflow-y-scroll ">
-            <div className="text-white ">
-              {result}
-              {/* <ul>
+            <div className="text-white text-left p-3">
+              {/* {result} */}
+              {/* <Answers /> */}
+              <ul>
                 {result &&
                   result.map((item, index) => (
-                    <li index={index}>
+                    <li key={index}>
                       <Answers ans={item} />
                     </li>
                   ))}
-              </ul> */}
+              </ul>
             </div>
           </div>
           <div
