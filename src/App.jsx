@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { URL } from "./constants";
 import Answers from "./components/Answers";
 
@@ -9,6 +9,8 @@ const App = () => {
     JSON.parse(localStorage.getItem("history"))
   );
   const [selectedHistory, setSelectedHistory] = useState("");
+  const scrollToAns = useRef();
+  const [loader, setLoader] = useState(false);
 
   // const payload = {
   //   contents: [{ parts: [{ text: question }] }],
@@ -37,6 +39,7 @@ const App = () => {
       contents: [{ parts: [{ text: payloadData }] }],
     };
 
+    setLoader(true);
     let response = await fetch(URL, {
       method: "POST", // here is the post type API
       body: JSON.stringify(payload),
@@ -53,6 +56,12 @@ const App = () => {
       { type: "a", text: dataString },
     ]);
     setQuestion(""); // use to 'input field empty' after press enter key
+
+    // --- jump to new scroll Answer --
+    setTimeout(() => {
+      scrollToAns.current.scrollTop = scrollToAns.current.scrollHeight;
+    }, 500);
+    setLoader(false);
   };
 
   const clearHistory = () => {
@@ -106,11 +115,23 @@ const App = () => {
           </ul>
         </div>
 
-        {/* <div className="col-span-4 flex-col h-full p-10"> */}
-        {/* <div className="container mb-10 flex-grow overflow-y-scroll "> */}
         <div className="col-span-4 flex flex-col h-screen p-10">
           {/* Scrollable chat area */}
-          <div className="container grow overflow-y-scroll mb-10">
+
+          {loader ? (
+            <div className="flex flex-row gap-2 justify-center">
+              <div className="w-4 h-4 rounded-full bg-orange-400 animate-bounce [animation-delay:.7s]"></div>
+              <div className="w-4 h-4 rounded-full bg-zinc-100 animate-bounce [animation-delay:.3s]"></div>
+              <div className="w-4 h-4 rounded-full bg-green-500 animate-bounce [animation-delay:.7s]"></div>
+            </div>
+          ) : null}
+
+          {/* --------------- */}
+
+          <div
+            ref={scrollToAns}
+            className="container grow overflow-y-scroll mb-3"
+          >
             <div className="text-zinc-300 text-left p-1">
               <ul>
                 {result.map((item, index) => (
