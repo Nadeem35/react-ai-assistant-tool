@@ -20,11 +20,6 @@ const App = () => {
       return false;
     }
 
-    const payloadData = question ? question : selectedHistory;
-    const payload = {
-      contents: [{ parts: [{ text: payloadData }] }],
-    };
-
     if (question) {
       if (localStorage.getItem("history")) {
         let history = JSON.parse(localStorage.getItem("history"));
@@ -33,10 +28,14 @@ const App = () => {
         setRecentHistory(history);
       } else {
         localStorage.setItem("history", JSON.stringify([question]));
-        setRecentHistory;
-        [question];
+        setRecentHistory([question]);
       }
     }
+
+    const payloadData = question ? question : selectedHistory;
+    const payload = {
+      contents: [{ parts: [{ text: payloadData }] }],
+    };
 
     let response = await fetch(URL, {
       method: "POST", // here is the post type API
@@ -68,6 +67,9 @@ const App = () => {
   };
 
   useEffect(() => {
+    if (selectedHistory) {
+      askQuestion(selectedHistory);
+    }
     console.log(selectedHistory);
   }, [selectedHistory]);
 
@@ -92,8 +94,9 @@ const App = () => {
           </h1>
           <ul className="text-left mt-3">
             {recentHistory &&
-              recentHistory.map((item) => (
+              recentHistory.map((item, index) => (
                 <li
+                  key={index}
                   onClick={() => setSelectedHistory(item)}
                   className="p-1 pl-8 truncate text-zink-400 text-zinc-400 cursor-pointer hover:bg-zinc-700 hover:text-zinc-200"
                 >
@@ -161,9 +164,18 @@ const App = () => {
             />
             <button
               onClick={askQuestion}
-              className="border-amber-50 border rounded-4xl justify-center bg-white text-black cursor-pointer pb-1 px-3"
+              className="border-amber-50 rounded-full justify-center hover:bg-zinc-700 text-white cursor-pointer  px-4"
             >
-              Ask
+              {/* Ask */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#e3e3e3"
+              >
+                <path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z" />
+              </svg>
             </button>
           </div>
         </div>
