@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { CheckHeading, replaceHeadingStars } from "./Helper";
+import ReactMarkdown from "react-markdown";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const Answers = ({ ans, index, totalResult, type }) => {
-  // console.log(ans, key);
   const [heahing, setHeading] = useState(false);
   const [answer, setAnswer] = useState(ans);
-
-  // console.log(index);
 
   useEffect(() => {
     if (CheckHeading(ans)) {
@@ -14,6 +14,25 @@ const Answers = ({ ans, index, totalResult, type }) => {
       setAnswer(replaceHeadingStars(ans));
     }
   }, [ans]);
+
+  const renderer = {
+    code({ node, inline, className, children, ...props }) {
+      const match = /language-(\w+)/.exec(className || "");
+      return !inline && match ? (
+        <SyntaxHighlighter
+          {...props}
+          children={String(children).replace(/\n$/, "")}
+          language={match[1]}
+          style={dark}
+          PreTag="div"
+        />
+      ) : (
+        <code {...props} className={className}>
+          {children}
+        </code>
+      );
+    },
+  };
 
   return (
     <>
@@ -25,7 +44,9 @@ const Answers = ({ ans, index, totalResult, type }) => {
       ) : heahing ? (
         <span className="pt-3 text-lg block font-bold">{answer}</span>
       ) : (
-        <span className={type == "q" ? "pl-1" : "pl-5"}>{answer}</span>
+        <span className={type == "q" ? "pl-1" : "pl-5"}>
+          {<ReactMarkdown components={renderer}>{answer}</ReactMarkdown>}
+        </span>
       )}
     </>
   );

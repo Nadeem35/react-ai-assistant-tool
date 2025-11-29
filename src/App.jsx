@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { URL } from "./constants";
-import Answers from "./components/Answers";
+import RecentSearch from "./components/RecentSearch";
+import QuestionAnswer from "./components/QuestionAnswer";
 
 const App = () => {
   const [question, setQuestion] = useState("");
@@ -11,10 +12,6 @@ const App = () => {
   const [selectedHistory, setSelectedHistory] = useState("");
   const scrollToAns = useRef();
   const [loader, setLoader] = useState(false);
-
-  // const payload = {
-  //   contents: [{ parts: [{ text: question }] }],
-  // };
 
   const askQuestion = async () => {
     if (!question && !selectedHistory) {
@@ -64,11 +61,6 @@ const App = () => {
     setLoader(false);
   };
 
-  const clearHistory = () => {
-    localStorage.clear();
-    setRecentHistory([]);
-  };
-
   const onEnter = (event) => {
     if (event.key == "Enter") {
       askQuestion();
@@ -79,125 +71,93 @@ const App = () => {
     if (selectedHistory) {
       askQuestion(selectedHistory);
     }
-    console.log(selectedHistory);
   }, [selectedHistory]);
+
+  /*____________  Dark Mode   ____________*/
+  const [darkMode, setdarkMode] = useState("dark");
+  // console.log(darkMode);
+  useEffect(() => {
+    if (darkMode == "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   return (
     <>
-      <div className="grid grid-cols-5  text-center">
-        <div className="col-span-1 bg-zinc-800 h-screen pt-3 text-white overflow-x-scroll">
-          <h1 className="bg-zinc-800 text-xl mx-auto text-white w-fit flex justify-center">
-            <span>Recent History</span>
-            <button onClick={clearHistory}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="20px"
-                viewBox="0 -960 960 960"
-                width="20px"
-                fill="#e3e3e3"
-                className="mt-1 mx-1 cursor-pointer"
-              >
-                <path d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm336-552H312v480h336v-480ZM384-288h72v-336h-72v336Zm120 0h72v-336h-72v336ZM312-696v480-480Z" />
-              </svg>
-            </button>
-          </h1>
-          <ul className="text-left mt-3">
-            {recentHistory &&
-              recentHistory.map((item, index) => (
-                <li
-                  key={index}
-                  onClick={() => setSelectedHistory(item)}
-                  className="p-1 pl-8 truncate text-zink-400 text-zinc-400 cursor-pointer hover:bg-zinc-700 hover:text-zinc-200"
-                >
-                  {item}
-                </li>
-              ))}
-          </ul>
-        </div>
-
-        <div className="col-span-4 flex flex-col h-screen p-10">
-          {/* Scrollable chat area */}
-
-          {loader ? (
-            <div className="flex flex-row gap-2 justify-center">
-              <div className="w-4 h-4 rounded-full bg-orange-400 animate-bounce [animation-delay:.7s]"></div>
-              <div className="w-4 h-4 rounded-full bg-zinc-100 animate-bounce [animation-delay:.3s]"></div>
-              <div className="w-4 h-4 rounded-full bg-green-500 animate-bounce [animation-delay:.7s]"></div>
-            </div>
-          ) : null}
-
-          {/* --------------- */}
-
-          <div
-            ref={scrollToAns}
-            className="container grow overflow-y-scroll mb-3"
+      <div className={darkMode == "dark" ? "dark" : "light"}>
+        <div className="grid grid-cols-5  text-center">
+          <select
+            onChange={(event) => setdarkMode(event.target.value)}
+            className="fixed text-white bottom-10 p-2"
           >
-            <div className="text-zinc-300 text-left p-1">
-              <ul>
-                {result.map((item, index) => (
-                  <div
-                    key={index + Math.random()}
-                    className={item.type == "q" ? "flex justify-end" : ""}
-                  >
-                    {item.type == "q" ? (
-                      <li
-                        key={index + Math.random()}
-                        className="text-right px-2 my-7  bg-zinc-700 w-fit border-zinc-700 border-6 rounded-tl-3xl rounded-bl-3xl rounded-br-3xl"
-                      >
-                        <Answers
-                          ans={item.text}
-                          index={index}
-                          totalResult={1}
-                          type={item.type}
-                        />
-                      </li>
-                    ) : (
-                      item.text.map((ansItem, ansIndex) => (
-                        <li
-                          key={ansIndex + Math.random()}
-                          className="text-left p-1"
-                        >
-                          <Answers
-                            ans={ansItem}
-                            index={ansIndex}
-                            totalResult={item.length}
-                            type={item.type}
-                          />
-                        </li>
-                      ))
-                    )}
-                  </div>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div
-            className="bg-zinc-800 w-1/2 p-4 pr-5 text-white m-auto justify-between rounded-4xl 
-           border border-zinc-500 flex h-16"
-          >
-            <input
-              type="text"
-              className="w-full p-3 h-full outline-none"
-              placeholder="Ask me anything..."
-              onChange={(event) => setQuestion(event.target.value)}
-              onKeyDown={onEnter}
-              value={question}
-            />
-            <button
-              onClick={askQuestion}
-              className="border-amber-50 rounded-full justify-center hover:bg-zinc-700 text-white cursor-pointer  px-4"
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+          </select>
+          <RecentSearch
+            recentHistory={recentHistory}
+            setRecentHistory={setRecentHistory}
+            setSelectedHistory={setSelectedHistory}
+          />
+
+          <div className="col-span-4 flex flex-col h-screen p-5">
+            <h1 className="pb-2 inline-block bg-gradient-to-r from-pink-700 to-violet-700 bg-clip-text text-3xl text-transparent">
+              Hello User, Ask me Anything
+            </h1>
+            {/* Scrollable chat area */}
+            {loader ? (
+              // ----- Loader - 1 -----------
+              <div className="flex flex-row gap-2 justify-center mt-2">
+                <div className="w-4 h-4 rounded-full bg-orange-400 animate-bounce [animation-delay:.7s]"></div>
+                <div className="w-4 h-4 rounded-full bg-zinc-100 animate-bounce [animation-delay:.3s]"></div>
+                <div className="w-4 h-4 rounded-full bg-green-500 animate-bounce [animation-delay:.7s]"></div>
+              </div>
+            ) : null}
+
+            {/* --------------- */}
+
+            <div
+              ref={scrollToAns}
+              className="container grow overflow-y-scroll mb-3"
             >
-              {/* Ask */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#e3e3e3"
+              <div className="text-zinc-300 text-left p-1">
+                <ul>
+                  {result.map((item, index) => (
+                    <QuestionAnswer key={index} item={item} index={index} />
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div
+              className="bg-gray-300 dark:bg-zinc-800 w-1/2 p-4 pr-5 text-zinc-500 m-auto justify-between rounded-4xl 
+              border border-zinc-500 flex h-16"
+            >
+              <input
+                type="text"
+                className="w-full p-3 h-full outline-none"
+                placeholder="Ask me anything..."
+                onChange={(event) => setQuestion(event.target.value)}
+                onKeyDown={onEnter}
+                value={question}
+              />
+              <button
+                onClick={askQuestion}
+                className="border-amber-50 rounded-full justify-center dark:hover:bg-zinc-700 hover:bg-zinc-500 text-white cursor-pointer px-4"
               >
-                <path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z" />
-              </svg>
-            </button>
+                {/* Ask */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#e3e3e3"
+                  className=" text-zinc-500 dark:bg-zinc-800 fill-current"
+                >
+                  <path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
