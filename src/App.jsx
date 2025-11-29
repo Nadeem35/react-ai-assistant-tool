@@ -22,7 +22,12 @@ const App = () => {
     if (question) {
       if (localStorage.getItem("history")) {
         let history = JSON.parse(localStorage.getItem("history"));
+        history = history.slice(0, 10);
         history = [question, ...history];
+        history = history.map(
+          (item) => item.charAt(0).toUpperCase() + item.slice(1).trim()
+        ); // ---- use to convert every word[0] in capital and remove extra space using trim
+        history = [...new Set(history)]; //------ use to remove same duplicate questions ---------
         localStorage.setItem("history", JSON.stringify(history));
         setRecentHistory(history);
       } else {
@@ -103,11 +108,11 @@ const App = () => {
 
           <div className="col-span-4 flex flex-col h-screen p-5">
             <h1 className="pb-2 inline-block bg-gradient-to-r from-pink-700 to-violet-700 bg-clip-text text-3xl text-transparent">
-              Hello User, Ask me Anything
+              Hi User, Ask me Anything
             </h1>
             {/* Scrollable chat area */}
             {loader ? (
-              // ----- Loader - 1 -----------
+              // ---------- Loader - 1 ---------
               <div className="flex flex-row gap-2 justify-center mt-2">
                 <div className="w-4 h-4 rounded-full bg-orange-400 animate-bounce [animation-delay:.7s]"></div>
                 <div className="w-4 h-4 rounded-full bg-zinc-100 animate-bounce [animation-delay:.3s]"></div>
