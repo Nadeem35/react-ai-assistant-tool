@@ -92,10 +92,10 @@ const App = () => {
   return (
     <>
       <div className={darkMode == "dark" ? "dark" : "light"}>
-        <div className="grid grid-cols-5  text-center">
+        <div className="grid grid-cols-5 text-gray-200 text-center">
           <select
             onChange={(event) => setdarkMode(event.target.value)}
-            className="fixed text-white bottom-10 p-2"
+            className="text-gray-800 dark:text-gray-200 fixed ml-3 text-center bottom-10 py-1 px-3 border-1 rounded border-gray-800 dark:border-gray-200"
           >
             <option value="dark">Dark</option>
             <option value="light">Light</option>
