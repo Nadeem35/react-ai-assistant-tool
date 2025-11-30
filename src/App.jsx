@@ -106,8 +106,8 @@ const App = () => {
             setSelectedHistory={setSelectedHistory}
           />
 
-          <div className="col-span-4 flex flex-col h-screen p-5">
-            <h1 className="pb-2 inline-block bg-gradient-to-r from-pink-700 to-violet-700 bg-clip-text text-3xl text-transparent">
+          <div className="pb-10 col-span-4 flex bg-white dark:bg-zinc-900 flex-col h-screen ">
+            <h1 className="py-3 inline-block bg-linear-to-r from-pink-700 to-violet-700 bg-clip-text text-3xl text-transparent shadow-[0px_4px_6px_0px_rgba(0,_0,_0,_0.1)]">
               Hi User, Ask me Anything
             </h1>
             {/* Scrollable chat area */}
@@ -124,7 +124,7 @@ const App = () => {
 
             <div
               ref={scrollToAns}
-              className="container grow overflow-y-scroll mb-3"
+              className="container grow overflow-y-scroll mb-3 px-20"
             >
               <div className="text-zinc-300 text-left p-1">
                 <ul>
@@ -135,12 +135,12 @@ const App = () => {
               </div>
             </div>
             <div
-              className="bg-gray-300 dark:bg-zinc-800 w-1/2 p-4 pr-5 text-zinc-500 m-auto justify-between rounded-4xl 
+              className="bg-light dark:bg-zinc-800 w-1/2 p-4 pr-5 text-zinc-500 m-auto justify-between rounded-4xl 
               border border-zinc-500 flex h-16"
             >
               <input
                 type="text"
-                className="w-full p-3 h-full outline-none"
+                className="w-full p-3 h-full text-gray-800 dark:text-gray-200 outline-none"
                 placeholder="Ask me anything..."
                 onChange={(event) => setQuestion(event.target.value)}
                 onKeyDown={onEnter}
@@ -148,7 +148,7 @@ const App = () => {
               />
               <button
                 onClick={askQuestion}
-                className="border-amber-50 rounded-full justify-center dark:hover:bg-zinc-700 hover:bg-zinc-500 text-white cursor-pointer px-4"
+                className="border-gray-800 dark:border-gray-200 text-gray-800 dark:text-gray-200 rounded-full justify-center hover:bg-slate-200 dark:hover:bg-zinc-700 cursor-pointer px-4"
               >
                 {/* Ask */}
                 <svg
@@ -157,7 +157,7 @@ const App = () => {
                   viewBox="0 -960 960 960"
                   width="24px"
                   fill="#e3e3e3"
-                  className=" text-zinc-500 dark:bg-zinc-800 fill-current"
+                  className="text-gray-500 dark:text-gray-200 fill-current"
                 >
                   <path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z" />
                 </svg>

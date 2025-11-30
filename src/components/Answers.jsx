@@ -5,7 +5,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const Answers = ({ ans, index, totalResult, type }) => {
-  const [heahing, setHeading] = useState(false);
+  const [heading, setHeading] = useState(false);
   const [answer, setAnswer] = useState(ans);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const Answers = ({ ans, index, totalResult, type }) => {
         <span className="pt-5 text-xl block text-white font-bold">
           {answer}
         </span>
-      ) : heahing ? (
+      ) : heading ? (
         <span className="pt-3 text-lg block font-bold">{answer}</span>
       ) : (
         <span className={type == "q" ? "pl-1" : "pl-5"}>

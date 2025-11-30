@@ -11,7 +11,7 @@ const QuestionAnswer = ({ item, index }) => {
         {item.type == "q" ? (
           <li
             key={index + Math.random()}
-            className="text-right px-2 my-7 bg-zinc-500 dark:bg-zinc-700 w-fit dark:border-zinc-700 border-zinc-500 border-6 rounded-tl-3xl rounded-bl-3xl rounded-br-3xl"
+            className="text-righ text-justify text-gray-800 dark:text-gray-200 px-3 my-7 bg-slate-200 dark:bg-zinc-800 w-fit dark:border-zinc-800 border-slate-200 border-6 rounded-tl-3xl rounded-bl-3xl rounded-br-3xl"
           >
             <Answers
               ans={item.text}
@@ -24,7 +24,7 @@ const QuestionAnswer = ({ item, index }) => {
           item.text.map((ansItem, ansIndex) => (
             <li
               key={ansIndex + Math.random()}
-              className="text-left text-zinc-500 p-1"
+              className="text-left text-gray-800 dark:text-gray-200 p-1"
             >
               <Answers
                 ans={ansItem}
