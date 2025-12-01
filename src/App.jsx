@@ -135,12 +135,12 @@ const App = () => {
               </div>
             </div>
             <div
-              className="bg-light dark:bg-zinc-800 w-1/2 p-4 pr-5 text-zinc-500 m-auto justify-between rounded-4xl 
+              className="bg-slate-100 dark:bg-zinc-800 w-1/2 p-4 pr-5 text-zinc-500 m-auto justify-between rounded-4xl 
               border border-zinc-500 flex h-16"
             >
               <input
                 type="text"
-                className="w-full p-3 h-full text-gray-800 dark:text-gray-200 outline-none"
+                className="w-full p-3 h-full  text-gray-800 dark:text-gray-200 outline-none"
                 placeholder="Ask me anything..."
                 onChange={(event) => setQuestion(event.target.value)}
                 onKeyDown={onEnter}
